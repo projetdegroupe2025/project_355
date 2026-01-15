@@ -1,17 +1,40 @@
 package com.example.project_355.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.ForeignKey
+import androidx.room.ColumnInfo
+import androidx.room.Index
+
+@Entity(tableName = "contacts", indices = [Index(value = ["phone"], unique = true)])
 data class Contact(
-    var id: Number,
-    var firstName: String,
-    var secondName: String,
-    var phone: String,
-    var createdAt: String,
-    var lastModified: String,
-    var isFavorite: Boolean = false
+    @PrimaryKey(autoGenerate = true)
+    val contactId: Int = 0,
+    val firstName: String,
+    val secondName: String,
+    val phone: String,
+    val createdAt: String,
+    val lastModified: String,
+    val isFavorite: Boolean = false
 )
 
+@Entity(
+    tableName = "recentContacted",
+    foreignKeys = [
+        ForeignKey(
+            entity = Contact::class,
+            parentColumns = ["contactId"],
+            childColumns = ["contactId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
 data class RecentContact(
-    var contact: Contact,
-    var date: String,
-)
+    @PrimaryKey(autoGenerate = true)
+    val callId: Int = 0,
 
+    @ColumnInfo(name = "contactId")
+    val contactId: Int,
+
+    val date: String
+)

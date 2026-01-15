@@ -1,8 +1,10 @@
 package com.example.project_355
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,16 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.ExitToApp
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.List
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -41,8 +35,13 @@ import com.example.project_355.view.components.GlassMorphic
 import com.example.project_355.view.components.Group
 import com.example.project_355.view.components.Input
 import com.example.project_355.view.components.Square
+import com.example.project_355.view.screen.NewContactScreen
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -52,7 +51,7 @@ class MainActivity : ComponentActivity() {
 //                   // Greeting("Android")
 //                   // Test()
 //                }
-                Test()
+                NewContactScreen()
             }
         }
     }
@@ -64,22 +63,23 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Test() {
     val sampleContact = Contact(
-        id = 1,
+       contactId = 1,
         firstName = "John",
         secondName = "Doe",
         phone = "+1 234 567 8900",
         createdAt = "2024-01-01",
         lastModified = "2024-01-07"
     )
+
     
     val g:List<Contact> = listOf(
-        Contact( id = 1,
+        Contact( contactId = 1,
             firstName = "John",
             secondName = "Doe",
             phone = "+1 234 567 8900",
             createdAt = "2024-01-01",
             lastModified = "2024-01-07"),
-        Contact( id = 1,
+        Contact( contactId = 1,
             firstName = "TJay",
             secondName = "Doe",
             phone = "+1 234 567 8900",
@@ -117,11 +117,18 @@ fun Test() {
           }
        }
 
-      Box(modifier = Modifier.padding(10.dp)){
+
+      Icon(imageVector = Icons.Outlined.Home  , contentDescription = null )
+       Icon(imageVector = Icons.Filled.Home  , contentDescription = null)
+
+
+               Box(modifier = Modifier.padding(10.dp)){
           Input(onChange = {}, label = "Name", placeHolder = "Enter name", showLabel = true)
       }
 
-       Box(modifier = Modifier.padding(10.dp).fillMaxWidth()){
+       Box(modifier = Modifier
+           .padding(10.dp)
+           .fillMaxWidth()){
           Btn(text = "Click", onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth())
        }
    }
