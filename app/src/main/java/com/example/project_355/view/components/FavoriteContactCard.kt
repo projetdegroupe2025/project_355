@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.project_355.model.Contact
 
 @Composable
@@ -22,9 +23,14 @@ fun FavoriteContactCard(contact: Contact, onClick: (()->Unit)? = null, modifier:
             Modifier
         }
     )) {
-        Square(size = 60.dp) {
+        Square(size = 61.dp) {
           Icon(imageVector = Icons.Outlined.Person, contentDescription = null )
         }
-        Text(text = "${contact.secondName} ${contact.firstName}", modifier=Modifier.padding(top = 5.dp))
+        Text(
+            text = "${contact.secondName} ${contact.firstName}",
+            modifier=Modifier.padding(top = 5.dp),
+            fontSize = 11.sp
+        )
+
     }
 }

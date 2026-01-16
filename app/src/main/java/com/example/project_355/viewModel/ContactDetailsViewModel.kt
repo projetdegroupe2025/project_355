@@ -17,6 +17,13 @@ class ContactDetailsViewModel @Inject constructor(private val contactDao: Contac
         return contactDao.getContactById(id)
     }
 
+    fun getContactById(id: Int, onResult: (Contact?) -> Unit) {
+        viewModelScope.launch {
+            val contact = contactDao.getContactById(id)
+            onResult(contact)
+        }
+    }
+
     fun deleteContact(contact: Contact, onResult: (OperationResponse) -> Unit) {
         viewModelScope.launch {
             try {

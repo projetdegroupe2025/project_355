@@ -24,11 +24,17 @@ import androidx.compose.ui.unit.sp
 import com.example.project_355.model.Contact
 
 @Composable
-fun ContactCard(contact: Contact, modifier: Modifier = Modifier, showTime: Boolean = false, onClick: (()->Unit)? = null){
+fun ContactCard(
+    contact: Contact, 
+    modifier: Modifier = Modifier, 
+    showTime: Boolean = false, 
+    onClick: (() -> Unit)? = null,
+    onCall: (() -> Unit)? = null
+) {
   Row(
       modifier = modifier
           .fillMaxWidth()
-          .padding(10.dp)
+          .padding(vertical = 18.dp)
           .then(
               if (onClick != null) {
                   Modifier.clickable { onClick() }
@@ -42,13 +48,13 @@ fun ContactCard(contact: Contact, modifier: Modifier = Modifier, showTime: Boole
       Row(
           verticalAlignment = Alignment.CenterVertically,
       ) {
-          Square(size = 60.dp) {
+          Square(size = 50.dp) {
               Icon(imageVector = Icons.Outlined.Person, contentDescription =null )
           }
           Column(
               modifier = Modifier.padding(horizontal =  10.dp)
           ) {
-              Text(text = "${contact.secondName} ${contact.firstName}", fontWeight = FontWeight.Bold)
+              Text(text = "${contact.secondName} ${contact.firstName}", fontSize = 11.sp)
               Text(text = contact.phone, color = Color.Gray)
           }
       }
@@ -63,8 +69,19 @@ fun ContactCard(contact: Contact, modifier: Modifier = Modifier, showTime: Boole
               Text(text ="13:30 AM", fontSize = 15.sp, color = Color.Gray)
           }
 
-          Square(size = 50.dp, backGroundColor = Color.White, elevation = 20.dp) {
-              Icon(imageVector = Icons.Outlined.Phone, contentDescription =null )
+          Square(
+              size = 50.dp, 
+              backGroundColor = Color.White, 
+              elevation = 3.dp,
+              modifier = Modifier.then(
+                  if (onCall != null) {
+                      Modifier.clickable { onCall() }
+                  } else {
+                      Modifier
+                  }
+              )
+          ) {
+              Icon(imageVector = Icons.Outlined.Phone, contentDescription = null)
           }
       }
 

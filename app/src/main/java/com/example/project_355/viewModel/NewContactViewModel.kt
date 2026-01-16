@@ -18,9 +18,9 @@ import javax.inject.Inject
 class NewContactViewModel @Inject constructor(private val contactDao: ContactDao) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun saveContact(firstName: String, secondName: String, phone: String, onResult: (OperationResponse) -> Unit) {
+    fun saveContact(firstName: String, secondName: String, phone: String, onResult: (OperationResponse, Int?) -> Unit) {
         if (firstName.isBlank() || phone.isBlank()) {
-            onResult(OperationResponse(isError = true, msg = "First name and phone are required"))
+            onResult(OperationResponse(isError = true, msg = "First name and phone are required"), null)
             return
         }
 
@@ -35,10 +35,10 @@ class NewContactViewModel @Inject constructor(private val contactDao: ContactDao
                     lastModified = currentDateTime,
                     isFavorite = false
                 )
-                contactDao.upsertContact(newContact)
-                onResult(OperationResponse(isError = false, msg = "Contact saved successfully"))
+                val contactId = contactDao.upsertContact(newContact)
+                onResult(OperationResponse(isError = false, msg = "Contact saved successfully"), contactId.toInt())
             } catch (e: Exception) {
-                onResult(OperationResponse(isError = true, msg = "Failed to save contact: ${e.message}"))
+                onResult(OperationResponse(isError = true, msg = "Failed to save contact: ${e.message}"), null)
             }
         }
     }

@@ -13,7 +13,7 @@ interface ContactDao {
 
 
     @Upsert
-    suspend fun upsertContact(contact: Contact)
+    suspend fun upsertContact(contact: Contact): Long
 
     @Delete
     suspend fun deleteContact(contact: Contact)
